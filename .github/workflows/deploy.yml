@@ -82,7 +82,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           password: ${{ secrets.EC2_PASSWORD }}
           source: "index.html,styles.css,app.js"
-          target: "/var/www/shopeasy"
+          target: /var/www/shopeasy
 
       - name: Reload Nginx
         uses: appleboy/ssh-action@v1
