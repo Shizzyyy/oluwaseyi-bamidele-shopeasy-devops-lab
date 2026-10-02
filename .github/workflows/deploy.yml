@@ -34,6 +34,7 @@ jobs:
           envs: EC2_PASSWORD
           script: |
             set -e
+
             s() { echo "$EC2_PASSWORD" | sudo -S -p '' "$@"; }
 
             if ! command -v nginx >/dev/null 2>&1; then
@@ -74,14 +75,14 @@ jobs:
             s systemctl enable --now nginx
 
       # CD: copy the website files from the runner to the server.
-      - name: Copy application
+      - name: Copy application to EC2
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           password: ${{ secrets.EC2_PASSWORD }}
           source: "index.html,styles.css,app.js"
-          target: /var/www/shopeasy
+          target: "/var/www/shopeasy"
 
       - name: Reload Nginx
         uses: appleboy/ssh-action@v1
