@@ -75,3 +75,22 @@ jobs:
 
       # CD: copy the website files from the runner to the server.
       - name: Copy application
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          password: ${{ secrets.EC2_PASSWORD }}
+          source: "index.html,styles.css,app.js"
+          target: /var/www/shopeasy
+
+      - name: Reload Nginx
+        uses: appleboy/ssh-action@v1
+        env:
+          EC2_PASSWORD: ${{ secrets.EC2_PASSWORD }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          password: ${{ secrets.EC2_PASSWORD }}
+          envs: EC2_PASSWORD
+          script: |
+            echo "$EC2_PASSWORD" | sudo -S -p '' systemctl reload nginx
