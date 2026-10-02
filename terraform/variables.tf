@@ -48,7 +48,6 @@ variable "vm_username" {
 variable "vm_password" {
   description = "Password for that user"
   type        = string
-  default     = "Bamidele100%"
   sensitive   = true # hides the value in Terraform's screen output
 }
 
